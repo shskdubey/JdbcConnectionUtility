@@ -14,19 +14,23 @@ public class MainTrigger {
 
 	public static void main(String arguments[]) {
 		LOGGER.info("=================================================================");
-		if (arguments != null) {
+		if (arguments != null && arguments.length>=4) {
 			LOGGER.info("Using following arguments for the jdbc connection : ");
-			LOGGER.info("\n url= {} \n userName={} \n password ={} \n sqlQueries= {} \n",arguments[1],arguments[2],arguments[3],Arrays.toString(getArrayOfSqlQueries(arguments)));
-
-
+			
 			if(arguments[0].equalsIgnoreCase("-v") && arguments.length >= 4 ) {
+				LOGGER.info("\n url= {} \n userName={} \n password ={} \n ",arguments[2],arguments[3],arguments[4]);
 				JdbcConnectionCmdLine.jdbcConnectionCmdCreater(JDBCDriverFilter.getDriverClass(arguments[1]), arguments[2],
 						arguments[3], arguments[4]);
 			}
-			if (arguments.length >= 4) {
+			else {
+				LOGGER.info("\n url= {} \n userName={} \n password ={} \n sqlQueries= {} \n",arguments[1],arguments[2],arguments[3],Arrays.toString(getArrayOfSqlQueries(arguments)));
 				CreateJdbcConnection.jdbcConnectionTester(JDBCDriverFilter.getDriverClass(arguments[0]), arguments[1],
 						arguments[2], arguments[3], getArrayOfSqlQueries(arguments));
 			}
+		}
+		else {
+			System.out.println("\n\n uh-oh! Invalid parameters . Try again ");
+			System.out.println("Usage: \n <DatabaseType> <JDBC_URL> <UserName> <password> \n DatabaseType can be:  mysql/oracle/db2/informix ");
 		}
 	}
 
